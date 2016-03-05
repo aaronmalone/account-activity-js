@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Bank account activity parser.",
   "scripts": {
-    "test": "jasmine JASMINE_CONFIG_PATH=jasmine.json"
+    "test": "jasmine JASMINE_CONFIG_PATH=src/test/jasmine.json"
   },
   "dependencies": {
     "lodash": "^4.6.1"
