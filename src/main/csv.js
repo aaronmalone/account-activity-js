@@ -6,7 +6,8 @@ function split(input) {
     } else {
         const head = substringBeforeComma(input);
         const tail = substringAfterComma(input);
-        return cons(head.trim(), split(tail));
+        const trimmed = _.trim(head, ' "');
+        return cons(trimmed, split(tail));
     }
 }
 

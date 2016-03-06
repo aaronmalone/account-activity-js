@@ -17,7 +17,7 @@ describe('#split', function () {
     it('should not split a quoted string', function () {
         const input = 'He said, "Shall we, my dear?"';
         const result = csv.split(input);
-        expect(result).toEqual(['He said', '"Shall we, my dear?"']);
+        expect(result).toEqual(['He said', 'Shall we, my dear?']);
     });
 
     it('should trim the resulting elements', function () {
@@ -26,6 +26,10 @@ describe('#split', function () {
         expect(result).toEqual(['one', 'two', 'three']);
     });
 
-    //todo remove quotes if leading and trailing
+    it('should trim off leading and trailing quotation marks', function () {
+        const input = 'four,"five,six"';
+        const result = csv.split(input);
+        expect(result).toEqual(['four', 'five,six']);
+    });
 
 });
