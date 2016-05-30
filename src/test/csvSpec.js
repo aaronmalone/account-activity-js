@@ -31,5 +31,4 @@ describe('#split', function () {
         const result = csv.split(input);
         expect(result).toEqual(['four', 'five,six']);
     });
-
 });

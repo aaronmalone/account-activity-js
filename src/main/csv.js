@@ -1,53 +1,34 @@
-const _ = require('lodash');
+const DOUBLE_QUOTE = '"';
+const COMMA = ',';
 
 function split(input) {
-    if (isEmptyString(input)) {
-        return [];
-    } else {
-        const head = substringBeforeComma(input);
-        const tail = substringAfterComma(input);
-        const trimmed = _.trim(head, ' "');
-        return cons(trimmed, split(tail));
+
+    function appendCharacterToLastElement(array, character) {
+        const last = array.pop();
+        array.push(last + character);
+        return array;
     }
-}
 
-function isEmptyString(input) {
-    return input === '';
-}
+    function splitRecursively(parts, index, quoted) {
+        if (index === input.length) {
+            return parts;
+        } else {
+            const char = input.charAt(index);
+            if (char === DOUBLE_QUOTE) {
+                return splitRecursively(parts, index + 1, !quoted);
+            } else if (char === COMMA && !quoted) {
+                parts.push('');
+                return splitRecursively(parts, index + 1, quoted);
+            } else {
+                const array = appendCharacterToLastElement(parts, char);
+                return splitRecursively(array, index + 1, quoted);
+            }
 
-function substringBeforeComma(input) {
-    const index = indexOfUnquotedComma(input);
-    if (index !== -1) {
-        return input.substr(0, index);
-    } else {
-        return input;
-    }
-}
-
-function indexOfUnquotedComma(input) {
-    var inQuote = false;
-    for (var i = 0; i < input.length; ++i) {
-        var char = input[i];
-        if (char === '"') {
-            inQuote = !inQuote;
-        } else if (char === ',' && !inQuote) {
-            return i;
         }
     }
-    return -1;
-}
 
-function substringAfterComma(input) {
-    const index = indexOfUnquotedComma(input);
-    if (index !== -1) {
-        return input.substr(index + 1);
-    } else {
-        return '';
-    }
-}
-
-function cons(element, list) {
-    return _.concat([element], list);
+    const parts = splitRecursively([''], 0, false);
+    return parts.map(part => part.trim());
 }
 
 module.exports = {split: split};
