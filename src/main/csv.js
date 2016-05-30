@@ -1,12 +1,13 @@
+const _ = require('lodash');
+
 const DOUBLE_QUOTE = '"';
 const COMMA = ',';
 
 function split(input) {
 
     function appendCharacterToLastElement(array, character) {
-        const last = array.pop();
-        array.push(last + character);
-        return array;
+        const withoutLast = array.slice(0, array.length - 1);
+        return _.concat(withoutLast, _.last(array) + character);
     }
 
     function splitRecursively(parts, index, quoted) {
@@ -17,8 +18,7 @@ function split(input) {
             if (char === DOUBLE_QUOTE) {
                 return splitRecursively(parts, index + 1, !quoted);
             } else if (char === COMMA && !quoted) {
-                parts.push('');
-                return splitRecursively(parts, index + 1, quoted);
+                return splitRecursively(_.concat(parts, ''), index + 1, quoted);
             } else {
                 const array = appendCharacterToLastElement(parts, char);
                 return splitRecursively(array, index + 1, quoted);
@@ -27,8 +27,7 @@ function split(input) {
         }
     }
 
-    const parts = splitRecursively([''], 0, false);
-    return parts.map(part => part.trim());
+    return splitRecursively([''], 0, false).map(_.trim);
 }
 
 module.exports = {split: split};
