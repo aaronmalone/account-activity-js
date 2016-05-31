@@ -5,15 +5,15 @@ const trim = require('lodash').trim;
 const DOUBLE_QUOTE = '"';
 const COMMA = ',';
 
-function isSeparatorComma(char, quoted) {
+function isUnquotedComma(char, quoted) {
 	return char === COMMA && !quoted;
 }
 
-function startNewBlankItem(parts) {
+function startNewElement(parts) {
 	return parts.concat('');
 }
 
-function addToLastItem(parts, char) {
+function appendToLastItem(parts, char) {
 	return initial(parts).concat(last(parts) + char);
 }
 
@@ -24,14 +24,14 @@ function split(input) {
 			return parts;
 		}
 
-		const char = input.charAt(index++);
+		const char = input.charAt(index);
 
-		quoted = char === DOUBLE_QUOTE ? !quoted : quoted;
-		if (char !== DOUBLE_QUOTE) {
-			parts = isSeparatorComma(char, quoted) ? startNewBlankItem(parts) : addToLastItem(parts, char);
+		if (char === DOUBLE_QUOTE) {
+			return splitRecursively(parts, index + 1, !quoted);
+		} else {
+			const newParts = isUnquotedComma(char, quoted) ? startNewElement(parts) : appendToLastItem(parts, char);
+			return splitRecursively(newParts, index + 1, quoted);
 		}
-
-		return splitRecursively(parts, index, quoted);
 	}
 
 	return splitRecursively([''], 0, false).map(trim);
