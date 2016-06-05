@@ -1,42 +1,43 @@
-const initial = require('lodash').initial;
-const last = require('lodash').last;
+const firstElement = require('lodash').first;
+const lastElement = require('lodash').last;
 const trim = require('lodash').trim;
 
 const DOUBLE_QUOTE = '"';
 const COMMA = ',';
 
-function isUnquotedComma(char, quoted) {
-	return char === COMMA && !quoted;
+function beginsAndEndsWithQuotes(string) {
+  return firstElement(string) === DOUBLE_QUOTE && lastElement(string) === DOUBLE_QUOTE;
 }
-
-function startNewElement(parts) {
-	return parts.concat('');
-}
-
-function appendToLastItem(parts, char) {
-	return initial(parts).concat(last(parts) + char);
+function trimQuotes(string) {
+  if (beginsAndEndsWithQuotes(string)) {
+    return string.slice(1, string.length - 1);
+  } else {
+    return string;
+  }
 }
 
 function split(input) {
 
-	function splitRecursively(parts, index, quoted) {
-		if (index === input.length) {
-			return parts;
-		}
+  var parts = [''];
+  var quoted = false;
 
-		const char = input.charAt(index);
+  input.split('').forEach(char => {
+    if (char === DOUBLE_QUOTE) {
+      quoted = !quoted;
+    }
 
-		if (char === DOUBLE_QUOTE) {
-			return splitRecursively(parts, index + 1, !quoted);
-		} else {
-			const newParts = isUnquotedComma(char, quoted) ? startNewElement(parts) : appendToLastItem(parts, char);
-			return splitRecursively(newParts, index + 1, quoted);
-		}
-	}
+    if (char === COMMA && !quoted) {
+      parts.push('');
+    } else {
+      parts[parts.length - 1] = lastElement(parts) + char;
+    }
+  });
 
-	return splitRecursively([''], 0, false).map(trim);
+  return parts
+    .map(trimQuotes)
+    .map(trim);
 }
 
 module.exports = {
-	split: split
+  split: split
 };

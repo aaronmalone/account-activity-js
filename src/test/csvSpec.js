@@ -15,9 +15,9 @@ describe('#split', function () {
     });
 
     it('should not split a quoted string', function () {
-        const input = 'He said, "Shall we, my dear?"';
+        const input = 'He said: "Shall we, my dear?"';
         const result = csv.split(input);
-        expect(result).toEqual(['He said', 'Shall we, my dear?']);
+        expect(result).toEqual(['He said: "Shall we, my dear?"']);
     });
 
     it('should trim the resulting elements', function () {
