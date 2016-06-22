@@ -8,6 +8,4 @@ function split(input) {
     .map(trim);
 }
 
-module.exports = {
-  split: split
-};
+module.exports = split;

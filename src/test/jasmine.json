@@ -1,9 +1,9 @@
 {
-    "spec_dir": "src/test",
-    "spec_files": [
-        "*.js",
-        "**/*.js"
-    ],
-    "helpers": [
-    ]
+  "spec_dir": "src/test",
+  "spec_files": [
+    "*.js",
+    "**/*.js"
+  ],
+  "helpers": [
+  ]
 }

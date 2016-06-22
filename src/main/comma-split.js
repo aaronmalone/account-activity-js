@@ -1,7 +1,5 @@
 "use strict";
 
-const lastElement = require('lodash').last;
-
 const DOUBLE_QUOTE = '"';
 const COMMA = ',';
 
@@ -17,7 +15,7 @@ function split(input) {
     if (char === COMMA && !quoted) {
       parts.push('');
     } else {
-      parts[parts.length - 1] = lastElement(parts) + char;
+      parts[parts.length - 1] = parts[parts.length - 1] + char;
     }
   });
 
