@@ -1,20 +1,10 @@
 "use strict";
 
 const toIsoFormat = require('./date-to-iso-format.js');
-const S = require('string');
+const isMonthDayDate = require('./is-month-day-date.js');
 
 function yearFromIsoDate(isoDate) {
   return parseInt(isoDate.split('-')[0]);
-}
-
-function isNumeric(str) {
-  return S(str).isNumeric();
-}
-
-function isMonthDayDate(str) {
-  return str.charAt(2) === '/'
-    && isNumeric(str.slice(0, 2))
-    && isNumeric(str.slice(-2));
 }
 
 function parseTransDate(description, postDate) {

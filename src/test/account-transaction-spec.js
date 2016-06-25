@@ -15,8 +15,7 @@ describe('AccountTransaction.fromCsvLine function', () => {
   });
 
   it('should return a result with the correct description', () => {
-    expect(result.description).toEqual('CHIPOTLE 0626 COLUMBUS OH                    03/28');
-    // TODO CHANGE DESCRIPTION PARSING
+    expect(result.description).toEqual('CHIPOTLE 0626 COLUMBUS OH');
   });
 
   it('should return a result with a rawAmount field', () => {

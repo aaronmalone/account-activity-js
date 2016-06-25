@@ -3,6 +3,7 @@
 const TransactionPrototype = require('./transaction-prototype.js');
 const csvSplit = require('./csv.js');
 const parseTransDate = require('./parse-trans-date.js');
+const parseDescription = require('./parse-description.js');
 
 const TYPE_INDEX = 0;
 const POST_DATE_INDEX = 1;
@@ -11,7 +12,7 @@ const RAW_AMOUNT_INDEX = 3;
 
 class AccountTransaction extends TransactionPrototype {
   constructor(type, postDate, description, rawAmount) {
-    super(type, postDate, description, rawAmount);
+    super(type, postDate, parseDescription(description), rawAmount);
     this.transDate = parseTransDate(description, this.postDate);
   }
 
